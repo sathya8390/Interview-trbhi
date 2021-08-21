@@ -1,0 +1,52 @@
+apiVersion: v1test
+kind: statefulset
+metadata:
+  name: multi-pod
+spec:
+
+  restartPolicy: Never
+
+  volumes:
+  - name: shared-data
+    emptyDir: {}
+
+  containers:
+
+
+  - name: ubuntu-container
+    image: ubuntu
+    volumeMounts:
+    - name: shared-data
+      mountPath: /pod-data
+    command: ["/bin/sh"]
+	
+kind: deployment
+metadata:
+  name: multi-pod
+spec:
+
+  restartPolicy: Never
+
+  volumes:
+  - name: shared-data
+    emptyDir: {}
+
+  containers:
+  - name: apache:alpine-3.12
+    image: alpine-3.12
+    volumeMounts:
+    - name: shared-data
+      mountPath: /usr/share/nginx/html
+ports:
+        - containerPort: 8094
+          name: intra-node
+        - containerPort: 8080
+          name: tls-intra-node
+        resources:
+          limits:
+            cpu: "4m"
+            memory: 8Gi
+          requests:
+            cpu: "4m"
+            memory: 8Gi
+  
