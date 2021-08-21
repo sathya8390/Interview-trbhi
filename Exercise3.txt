@@ -1,0 +1,11 @@
+=======================
+Troubleshooting process
+=======================
+
+1.Check the status of service using systemctl status redis
+
+2.if the service is not active , troubleshoot the same with its error and check the redis.config
+
+3.We need to confirm whether something to be changed in config level or permission level
+
+4.Not able to start this service as per error because "supervised systemd" value is not there in the redis.config
